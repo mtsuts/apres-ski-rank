@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="./styles/main.css" />
+
+  <link href="./styles/choices.css" rel="stylesheet" />
+  <link href="./styles/table.css" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="./scripts/tailwind.config.js"></script>
+  <script src="./scripts/choices.min.js"></script>
+  <script src="./scripts/d3.min.js"></script>
+</head>
+
+<body>
+
+  <div class="max-w-[918px] bg-[#EFEFEF]  mx-auto">
+    <div class="px-[75px] py-[36px]">
+      <div class="flex flex-row items-center gap-3">
+        <div class="w-1/2">
+          <div class="py-9 px-5">
+            <img src="./images/logo.svg" />
+          </div>
+
+          <div class="px-4 w-full">
+            <h3
+              class="text-[36px] text-black md:text-[88px] leading-[79px] text-start font-tungsten  uppercase font-bold">
+              World’s best resorts for apres-ski
+            </h3>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <img src="./images/banner-svg.svg" alt="banner" />
+        </div>
+      </div>
+      <div class="mt-10">
+        <div class="">
+          <select id="category_sel"></select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <div class="w-full px-5 md:px-8 mt-5">
+    <div id="table" class="mx-auto"></div>
+  </div>
+  </div>
+  </div>
+
+  <script src="./scripts/utils.js"></script>
+  <script src="./scripts/table.config.js"></script>
+  <script src="./scripts/DataStore.js"></script>
+  <script src="./scripts/table.js"></script>
+  <script src="./scripts/app.js"></script>
+</body>
+
+</html>
