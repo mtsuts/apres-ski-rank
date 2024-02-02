@@ -3,7 +3,7 @@ function map(mapContainer, data, skiData) {
 
   const params = {
     width: container.node().getBoundingClientRect().width,
-    height: 630,
+    height: window.innerWidth > 724 ? 630 : 350,
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
@@ -23,7 +23,6 @@ function map(mapContainer, data, skiData) {
   const path = d3.geoPath().projection(projection);
   // Create a group for the map features
   const features = svg.append("g")
-
   features.selectAll("path")
     .data(data.features)
     .enter()
@@ -36,9 +35,11 @@ function map(mapContainer, data, skiData) {
   // zoom section
   const zoom = d3.zoom()
     .scaleExtent([1, 8])
-    .on("zoom", zoomed);
+    .on("zoom", zoomed)
 
   svg.call(zoom)
+    .on("dblclick.zoom", null)
+    .on('wheel.zoom', null);
 
   // reset buttons click
   d3.select('.plus').on('click', () => {
@@ -73,23 +74,47 @@ function map(mapContainer, data, skiData) {
     })
 
 
-  // tippy
-  circle.each(function (d) {
-    tippy(this, {
-      content: `<div class='bg-white flex justify-center items-center gap-2 px-3 py-1 font-bold text-[20px] border-2 border-black text-black rounded-full font-tungsten'>
-      <div class='text-[#AB182D] text-lg font-arial'>${d['overall rank']} </div>
+
+  let instances = []
+
+  function addTooltip(rankProp = 'overall rank') {
+    instances = []
+
+    circle.each(function (d) {
+      if (this._tippy) {
+        this._tippy.destroy()
+      }
+
+      instances.push(tippy(this, {
+        content: `<div class='bg-white flex justify-center items-center gap-2 px-3 py-1 font-bold text-[20px] border-2 border-black text-black rounded-full font-tungsten'>
+      <div class='text-[#AB182D] text-base font-arialBold'>${ordinal_suffix_of(d[rankProp])} </div>
       <div> <img src='./images/flags/${d['country code']}.svg' alt='flag' class='w-[30px] h-[18px]' /> </div>
     <div>  ${d.resort}  </div>
-      
       </div>`,
-      allowHTML: true,
-      maxWidth: 350,
-      arrow: false,
-      animateFill: false,
-      theme: 'transparent',
+        allowHTML: true,
+        maxWidth: 350,
+        arrow: false,
+        offset: [0, 5],
+        animateFill: false,
+        theme: 'transparent',
+        resort: d.resort,
+        onShow: () => {
+          d3.select(this).attr('fill', '#AB182D').attr('stroke-width', 2)
+        },
+        onHide: () => {
+          d3.select(this).attr('fill', 'white').attr('stroke-width', 1)
+        }
+      }))
     });
+  }
 
-  });
+  addTooltip();
 
-
+  return {
+    showTooltip: (resort) => {
+      const foundResort = instances.find(d => d.props.resort === resort)
+      foundResort.show()
+    },
+    addTooltip
+  }
 }

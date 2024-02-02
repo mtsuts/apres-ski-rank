@@ -5,7 +5,7 @@ tailwind.config = {
         '3xl': '0px 2px 3px 0px #6C6C6C4D, 0px 4px 20px 0px #8A8A8A33',
       },
       borderRadius: {
-        '3xl': '80px'
+        '3xl': '28px'
       },
       fontFamily: {
         sans: ['Arial Regular', 'sans-serif'],

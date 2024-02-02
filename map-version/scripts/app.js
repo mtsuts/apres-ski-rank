@@ -33,10 +33,11 @@ class App {
 				`,
         rankProp: 'hashtag rank',
         score: 'hastags number',
+        format: formatThousand,
       },
       {
         id: 4,
-        value: 'Food and drink prices for a week',
+        value: 'Food and drink prices',
         icon: `<svg width="33" height="21" viewBox="0 0 33 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M31.3837 0.93C29.5029 1.78853 28.2151 3.63574 28.1494 5.74866L27.9844 10.2037C27.9509 10.9951 28.5787 11.6551 29.3701 11.6551H29.9309L28.9073 18.2215C28.7423 19.2115 29.5338 20.1357 30.5238 20.1357C31.4481 20.1357 32.1738 19.41 32.1738 18.4857L32.1751 1.4584C32.1751 1.02913 31.7459 0.765 31.3837 0.93Z" fill="currentColor"/>
 				<path d="M5.70933 0.89634C5.37933 0.89634 5.11507 1.1606 5.11507 1.4906V5.9456C5.11507 6.1106 4.98358 6.24209 4.81858 6.24209H4.45505C4.29005 6.24209 4.15857 6.1106 4.15857 5.9456V1.4906C4.15857 1.1606 3.89431 0.89634 3.5643 0.89634C3.2343 0.89634 2.97004 1.1606 2.97004 1.4906V5.9456C2.97004 6.1106 2.83855 6.24209 2.67355 6.24209L2.31003 6.24338C2.14503 6.24338 2.01354 6.11189 2.01354 5.94689V1.49057C2.01354 1.16057 1.74928 0.896309 1.41928 0.896309C1.08927 0.896309 0.825012 1.16057 0.825012 1.49057V6.7049C0.825012 7.46417 1.45148 8.09064 2.21075 8.09064H2.50723L1.88076 18.3543C1.81502 19.3108 2.57429 20.1036 3.53076 20.1036H3.56428C4.52075 20.1036 5.28001 19.3121 5.21428 18.3543L4.62001 8.05863H4.9165C5.67576 8.05863 6.30223 7.43216 6.30223 6.67289L6.30352 1.4909C6.30352 1.1609 6.03934 0.89634 5.70933 0.89634Z" fill="currentColor"/>
@@ -45,6 +46,7 @@ class App {
 				`,
         rankProp: 'food and drinks rank',
         score: 'food and drinks cost',
+        format: v => "£" + v
       },
       {
         id: 5,
@@ -57,6 +59,7 @@ class App {
 				`,
         rankProp: "ski pass cost rank",
         score: 'ski pass cost',
+        format: v => "£" + v
       }
     ]
 
@@ -66,7 +69,7 @@ class App {
   async loadDataAndInit() {
     try {
       let data = await d3.csv('./data/ski-data.csv', d3.autoType)
-      d3.json('./data/geo.json').then((datum) => {
+      d3.json('./data/map.geojson').then((datum) => {
         this.choices = initDropdown({
           list: this.choiceList.slice().map(d => ({
             label: `
@@ -75,7 +78,6 @@ class App {
 								<div class='w-[30px] choice-icon'>
 									${d.icon} 
 								</div>
-
 								<div>${d.value}</div>
 							</div>
 						</div>
@@ -94,20 +96,24 @@ class App {
           searchPlaceholderValue: '',
           cb: (value) => {
             const chosenValue = this.choiceList.find(d => d.value === value)
-            this.accordion(data, chosenValue.rankProp)
+            this.createAccordion(data, chosenValue.rankProp)
+            console.log(chosenValue.rankProp);
+            this.map.addTooltip(chosenValue.rankProp)
           }
         })
         // map initialization
         this.map = map('.map-container', datum, data)
+
       })
 
-      this.accordion(data)
+      this.createAccordion(data)
 
     } catch (e) {
       console.error(e)
     }
   }
-  accordion(data, rankBy = 'overall rank') {
+
+  createAccordion(data, rankBy = 'overall rank') {
     const sortedData = data.slice().sort((a, b) => a[rankBy] - b[rankBy])
 
     d3.select('#accordion-example')
@@ -115,14 +121,15 @@ class App {
       .selectAll('div')
       .data(sortedData)
       .join('div')
-      .attr('class', `my-2 p-2 rounded-2xl shadow-3xl`)
-      .html((d, i) => `<h2 id="accordion-example-heading-${i + 1}">
+      .attr('data-resort', d => d.resort)
+      .attr('class', `my-2 p-2 rounded-3xl shadow-3xl`)
+      .html((d, i) => `<h2 id="accordion-example-heading-${i + 1}" data-resort="${d.resort}">
       <button type="button"
         class="accordion-btn flex items-center justify-between w-full font-medium  "
         data-accordion-target="#accordion-example-body-${i + 1}" aria-expanded="false"
         aria-controls="accordion-example-body-${i + 1}">
         <div class="flex items-center gap-4">
-        <div class='rounded-full bg-black px-4 py-0.5 text-[24px] font-tungsten  text-white'>${i + 1}  </div>
+        <div class='rounded-full bg-black px-4 py-0.5 min-w-10 h-10 text-[24px] font-tungsten text-white'>${i + 1}  </div>
         <div class=''> <img src='./images/flags/${d['country code']}.svg'/> </div>
         <div class='uppercase fond-bold text-[24px] text-black font-tungsten'> ${d.resort} </div>
         </div>
@@ -139,45 +146,47 @@ class App {
 
       </button>
     </h2>
-    <div id="accordion-example-body-${i + 1}" class="hidden" aria-labelledby="accordion-example-heading-${i + 1}">
+    <div data-resort="${d.resort}" id="accordion-example-body-${i + 1}" class="hidden" aria-labelledby="accordion-example-heading-${i + 1}">
       <div class="p-5">
         <p class="mb-2">
         ${this.choiceList.map((x, i) => {
         return `
-        <div class='flex items-center justify-between gap-4 mb-4'> 
-        <div class='flex gap-2 items-center'>
-          <div class='w-[30px] choice-icon'>
+        <div class='flex items-center justify-between gap-4 mb-4 ${x.rankProp === rankBy ? 'font-bold font-arialBold' : ''}'> 
+        <div class='flex gap-2 items-center '>
+          <div class='w-[30px] choice-icon' >
             ${x.icon} 
-          </div>
+          </div >
           <div>${x.value === 'Overall Score' ? "Overall Score /100" : x.value}</div>
-          </div>
-          <div class='flex items-end justify-end'>${d[x.score]} </div> 
-        </div>
-`
+          </div >
+          <div class='flex items-end justify-end'>${x.score === 'food and drinks cost' || x.score === 'ski pass cost' ? '£' + d[x.score] : formatThousand(d[x.score])} </div> 
+        </div >
+          `
       }).join('')}
         </p>
       </div>
     </div>`)
 
     const accordionElement = document.getElementById('accordion-example');
-    // create an array of objects with the id, trigger element (eg. button), and the content element
 
+    // create an array of objects with the id, trigger element (eg. button), and the content element
     const accordionItems = data.map((d, i) => {
       return {
         id: `accordion-example-heading-${i + 1}`,
         triggerEl: document.querySelector(`#accordion-example-heading-${i + 1}`),
         targetEl: document.querySelector(`#accordion-example-body-${i + 1}`),
-        active: false
+        active: false,
+        // resort: d.resort
       }
     })
 
     // options with default values
     const options = {
-      alwaysOpen: true,
+      // alwaysOpen: true,
       activeClasses: 'bg-gray-100 dark:bg-transparent text-gray-900 dark:text-white',
       inactiveClasses: 'text-gray-500 dark:text-gray-400',
-      onOpen: (item) => {
-        console.log(item)
+      onOpen: (item, e) => {
+        const resort = e.targetEl.getAttribute("data-resort")
+        this.map.showTooltip(resort)
       },
       onClose: (item) => {
 
@@ -192,7 +201,13 @@ class App {
       id: 'accordion-example',
       override: true
     };
-    const accordion = new Accordion(accordionElement, accordionItems, options, instanceOptions);
+
+    if (this.accordion) {
+      this.accordion.destroyAndRemoveInstance()
+    }
+
+    this.accordion = new Accordion(accordionElement, accordionItems, options, instanceOptions);
+    this.accordion.init()
   }
 
 }

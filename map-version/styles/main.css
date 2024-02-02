@@ -6,6 +6,10 @@
   src: url("../TungstenFont/Tungsten-Semibold-subset.woff2") format("woff2");
 }
 
+*:focus {
+  outline: none;
+}
+
 .zoom-icon {
   box-shadow: 0px 2px 3px 0px #6C6C6C4D;
   box-shadow: 0px 4px 20px 0px #8A8A8A33;
@@ -14,7 +18,6 @@
 .container {
   height: 200px
 }
-
 
 /* tippy */
 .tippy-content {
