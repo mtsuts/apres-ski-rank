@@ -5,6 +5,10 @@ function getFlag(country, className = 'small-flag') {
   )}.svg" /> ${country}
   </div>`
 }
+const arrowIcon = `<svg width="7" height="4" viewBox="0 0 7 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.65634 3.80474C6.38855 4.06509 5.95438 4.06509 5.68659 3.80474L3.42861 1.60948L1.17062 3.80474C0.902834 4.06509 0.468664 4.06509 0.200876 3.80474C-0.0669122 3.54439 -0.0669122 3.12228 0.200876 2.86193L2.94373 0.195262C3.21152 -0.0650873 3.64569 -0.0650873 3.91348 0.195262L6.65634 2.86193C6.92412 3.12228 6.92412 3.54439 6.65634 3.80474Z" fill="#AB182D"/>
+</svg>
+`
 
 function mainHeaderTemplate() {
   return fakePromise(`
@@ -15,40 +19,37 @@ function mainHeaderTemplate() {
 function headerTemplate() {
   const name = this.name
   const icon = this.icon
-
-  return loadSvg(icon).then(iconStr => {
-    return `<button class="header-btn flex align-center justify-center">
-      <div class="w-full">
-        <div class="label text-black px-0.5 py-2 font-light">${name}</div>
-      </div>
+  return fakePromise(icon).then(iconStr => {
+    return `<button class="header-btn">
+     <div class='w-full h-full'>
+        <div class='icon flex items-center justify-center'> ${arrowIcon} </div>
+        <div class="w-full flex align-center justify-center column-label">
+          <div class="label  text-black px-0.5 py-2 font-light">${name}</div>
+        </div>     
+      </div> 
     </button>`
   })
 }
 
 {/* <img src="./images/flags/l/${d["Country Code"]}.svg" class="mr-2 w-[20px] h-[15px]" />  */ }
-function mainCellTemplate(d) {
-  const propName = this.propName
-  return `<div class=" w-full h-full rounded-md py-1 px-3 text-black text-[14px] flex items-center">
-    <div class="truncate text-[24px] font-tungsten font-bold ... uppercase"> ${d[propName]} </div>
-  </div>`
-}
+// function mainCellTemplate(d) {
+//   const propName = this.propName
+//   return `<div class=" w-full h-full rounded-md py-1 px-3 text-black text-[14px] flex items-center">
+//     <div class="truncate text-[24px] py-2 font-tungsten font-bold ... uppercase"> ${d[propName]} </div>
+//   </div>`
+// }
 
-function cellTemplate(d, i, arr, showValue) {
-  const format = this.format || (m => m)
-  const scale = this.colorScale
-  const rank = d[this.rankProp]
+function cellTemplate(header, row) {
+  const format = header.format || (m => m)
+  const scale = header.colorScale
+  const rank = row[header.rankProp]
   const color = scale(rank)
-  const textColor = color === '#CD4A86' || color === '#0096B2' ? '#ffffff' : '#192435'
-  const prefix = d[this.rankProp + '_is_equal'] ? '=' : ''
+  const textColor = header.textColor
+  let value = `${format(row[header.propName])}`
 
-  let value = showValue ? d[this.propName] : `${prefix}${format(rank)}`
-
-  if (this.isOverall) {
-    value = format(d[this.propName])
-  }
-
-  return `<div class="color-box" style="background-color: ${color}; color: ${textColor};">
-    ${value}
+  return `
+  <div class="color-box" style="background-color: ${color}; color: ${textColor};">
+    ${value}  
   </div>`
 }
 
@@ -59,126 +60,147 @@ function sortFunc(a, b, order) {
 }
 
 const colors = [
-  '#DC874B',
-  'rgba(220, 135, 75, 0.5)',
-  'rgba(98, 168, 198, 0.5)',
-  '#62A8C6',
+  "#AB182D",
+  '#AB182D80',
+  '#100C0880',
+  '#100C08',
 ]
 
-function getHeaders(data) {
+function getHeaders(data, chosenRank = 'overall rank') {
   const columns = [
     {
       id: 1,
-      isMainColumn: true,
-      name: 'test',
-      propName: 'resort',
-      rankProp: 'resort',
-      description: '',
-      icon: '',
-      class: '',
-      cellTemplate: mainCellTemplate,
-      headerTemplate: mainHeaderTemplate,
+      isFixed: true,
+      textColor: 'white',
+      width: 56,
+      name: 'Rank',
+      propName: chosenRank,
+      rankProp: chosenRank,
+      tableHeaderClass: '',
+      tableBodyClass: 'font-arial text-sm',
+      order: 'asc',
+      sort: sortFunc,
+      format: ordinal_suffix_of,
+      cellTemplate,
+      headerTemplate,
     },
     {
       id: 2,
-      isOverall: true,
-      name: 'Overall score /100',
-      propName: 'FINAL RANK',
-      rankProp: 'FINAL RANK',
+      isFixed: true,
+      width: 140,
+      textColor: 'black',
+      name: 'Resort',
+      propName: 'resort',
+      rankProp: 'resort',
+      tableHeaderClass: 'resort-header-column',
       description: '',
-      order: 'asc',
-      icon: './images/overall.svg',
-      class: '',
-      infoOrder: 6,
-      cellTemplate,
-      format: ordinal_suffix_of,
+      tableBodyClass: 'uppercase font-tungsten font-bold leading-5 text-xl text-start resort-column',
       sort: sortFunc,
+      format: v => v,
+      cellTemplate,
       headerTemplate,
     },
     {
       id: 3,
-      name: 'Restaurants',
-      propName: '4.5* restaurants and above',
-      rankProp: 'restaurants rank',
+      width: 96,
+      textColor: 'black',
+      name: 'Country',
+      propName: 'country',
+      rankProp: 'country',
+      tableHeaderClass: 'country-header-column',
       description: '',
-      icon: './images/restaurants.svg',
-      class: '',
-      infoOrder: 1,
-      format: ordinal_suffix_of,
-      sort: sortFunc,
+      icon: './images/icons/icon.svg',
+      tableBodyClass: 'uppercase font-tungsten font-bold leading-5 text-xl text-start country-column',
       cellTemplate,
+      sort: sortFunc,
       headerTemplate,
     },
     {
       id: 4,
-      name: 'Private jets',
-      propName: 'Number of private jet charters',
-      rankProp: 'jet rank',
+      width: 90,
+      textColor: 'white',
+      name: 'Overall score /100',
+      propName: 'total score',
+      rankProp: 'overall rank',
+      tableHeaderClass: '',
+      order: 'asc',
       description: '',
-      icon: './images/jets.svg',
-      infoOrder: 2,
-      class: '',
-      format: ordinal_suffix_of,
+      icon: './images/icons/icon.svg',
+      tableBodyClass: 'font-arial text-sm',
       sort: sortFunc,
+      format: v => v,
       cellTemplate,
       headerTemplate,
     },
+
     {
       id: 5,
-      name: 'Accommodation',
-      propName: '5* accommodation',
-      rankProp: 'accommodation rank',
-      icon: './images/accomodation.svg',
+      width: 104,
+      textColor: 'white',
+      name: 'Avg. TripAdvisor Score',
+      propName: 'tripadvisor score',
+      rankProp: 'tripadvisor rank',
+      tableHeaderClass: '',
       description: '',
-      infoOrder: 3,
-      class: '',
-      format: ordinal_suffix_of,
+      icon: './images/icons/icon.svg',
+      tableBodyClass: 'font-arial text-sm',
+      infoOrder: 1,
       sort: sortFunc,
       cellTemplate,
       headerTemplate,
     },
     {
       id: 6,
-      name: 'Yacht clubs',
-      propName: 'Yacht clubs',
-      rankProp: 'Yacht rank',
+      width: 96,
+      textColor: 'white',
+      name: 'Instagram Hashtags',
+      propName: 'hastags number',
+      rankProp: 'hashtag rank',
+      tableHeaderClass: '',
       description: '',
-      icon: './images/yacht.svg',
-      infoOrder: 4,
-      class: '',
-      format: ordinal_suffix_of,
+      icon: './images/icons/icon.svg',
+      infoOrder: 2,
+      tableBodyClass: 'font-arial text-sm',
+      format: formatThousand,
       sort: sortFunc,
       cellTemplate,
       headerTemplate,
     },
     {
       id: 7,
-      name: 'Spas',
-      propName: 'Luxury spas',
-      rankProp: 'spas rank',
+      width: 96,
+      textColor: 'white',
+      name: 'Price of Food and Drink',
+      propName: 'food and drinks cost',
+      rankProp: 'food and drinks rank',
+      tableHeaderClass: '',
+      icon: './images/icons/icon.svg',
       description: '',
-      icon: './images/spas.svg',
-      infoOrder: 5,
-      class: '',
-      format: ordinal_suffix_of,
+      infoOrder: 3,
+      tableBodyClass: 'font-arial text-sm',
       sort: sortFunc,
       cellTemplate,
       headerTemplate,
+      format: v => "£" + v
     },
     {
       id: 8,
-      name: 'Sunshine',
-      propName: 'Annual amount of sunshine',
-      rankProp: 'sunshine Rank',
+      width: 88,
+      textColor: 'white',
+      name: 'Ski Pass Price',
+      propName: 'ski pass cost',
+      rankProp: 'ski pass cost rank',
+      tableHeaderClass: '',
       description: '',
-      icon: './images/sunshine.svg',
-      infoOrder: 5,
-      class: '',
-      format: ordinal_suffix_of,
+      icon: './images/icons/icon.svg',
+      infoOrder: 4,
+      tableBodyClass: 'font-arial text-sm',
       sort: sortFunc,
       cellTemplate,
       headerTemplate,
+      format: v => "£" + v
     },
+
   ]
 
   return columns.map((d, i) => {
@@ -187,14 +209,12 @@ function getHeaders(data) {
       id: i + 1,
     }
 
-    if (!d.isMainColumn) {
-      const extent = d3.extent(data, x => x[d.rankProp])
-      col.colorScale = d3.scaleQuantile(extent, colors)
+    const extent = d3.extent(data, x => x[d.rankProp])
+    col.colorScale = d3.scaleQuantile(extent, colors)
 
-      data.forEach(datum => {
-        datum[d.rankProp + '_is_equal'] = data.filter(x => x[d.rankProp] === datum[d.rankProp]).length > 1
-      })
-    }
+    data.forEach(datum => {
+      datum[d.rankProp + '_is_equal'] = data.filter(x => x[d.rankProp] === datum[d.rankProp]).length > 1
+    })
 
     return col
   })

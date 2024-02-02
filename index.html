@@ -6,9 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" type="text/css" href="./styles/main.css" />
+  <link rel="stylesheet" type="text/css" href="./ArialFont/style.css" />
+
+
 
   <link href="./styles/choices.css" rel="stylesheet" />
   <link href="./styles/table.css" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="./scripts/tailwind.config.js"></script>
   <script src="./scripts/choices.min.js"></script>
@@ -18,24 +22,28 @@
 <body>
 
   <div class="max-w-[918px] bg-[#EFEFEF]  mx-auto">
-    <div class="px-[75px] py-[36px]">
-      <div class="flex flex-row items-center gap-3">
-        <div class="w-1/2">
-          <div class="py-9 px-5">
+    <div class="lg:px-[75px] lg:py-[36px] px-5 py-6">
+
+
+      <div class="flex lg:flex-row flex-col items-center justify-center mx-auto gap-3">
+        <div class="lg:w-1/2 w-full">
+          <div class="py-9 px-5  w-full flex items-center justify-center">
             <img src="./images/logo.svg" />
           </div>
 
           <div class="px-4 w-full">
             <h3
-              class="text-[36px] text-black md:text-[88px] leading-[79px] text-start font-tungsten  uppercase font-bold">
+              class="text-[52px] text-black lg:text-[88px] leading-[47px] lg:leading-[79px] text-center lg:text-start font-tungsten  uppercase font-bold">
               World’s best resorts for apres-ski
             </h3>
           </div>
         </div>
-        <div class="w-1/2">
+        <div class="lg:w-1/2  w-full flex items-center justify-center">
           <img src="./images/banner-svg.svg" alt="banner" />
         </div>
       </div>
+
+
       <div class="mt-10">
         <div class="">
           <select id="category_sel"></select>
@@ -46,9 +54,22 @@
   </div>
 
   </div>
-
-  <div class="w-full px-5 md:px-8 mt-5">
-    <div id="table" class="mx-auto"></div>
+  <div class="max-w-[918px] mx-auto">
+    <div class="w-full lg:px-[75px] lg:py-[36px] py-2 px-5">
+      <div class="px-0  py-2 lg:py-6">
+        <div class="flex justify-between mb-1">
+          <label class="font-light">Lower score</label>
+          <label class="font-light">Higher score</label>
+        </div>
+        <div class="flex w-full">
+          <div class="w-1/4 bg-[#100C08] p-2 rounded-l"></div>
+          <div class="w-1/4 bg-[#100C0880] p-2"></div>
+          <div class="w-1/4 bg-[#AB182D80] p-2"></div>
+          <div class="w-1/4 bg-[#AB182D] p-2 rounded-r"></div>
+        </div>
+      </div>
+      <div id="table" class="mx-auto"></div>
+    </div>
   </div>
   </div>
   </div>

@@ -1,102 +1,119 @@
 class App {
 	constructor() {
+
+		this.choiceList = [
+			{
+				id: 1,
+				value: 'Overall Score',
+				icon: `<svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M17.2662 2C17.3325 1.33376 17.3325 0.73376 17.3325 0H3.99999C3.99999 0.73376 3.99999 1.33376 4.06624 2H0V2.66624C0 8.6 7.53376 12.8 9.33376 13.7325L9.33251 16C9.33251 17.1337 8.46627 18 7.33251 18H5.99875V20.6662H15.3325V18H13.9987C12.865 18 11.9987 17.1337 11.9987 16V13.7337C13.7987 12.8 21.3325 8.59997 21.3325 2.66749V2.00125L17.2662 2ZM1.39998 3.33376H4.19998C4.46623 6.33376 5.19998 8.46752 5.99998 10C3.86622 8.33376 1.66622 6 1.39998 3.33376ZM15.4 10C16.2 8.46624 16.9337 6.33376 17.2 3.33376H20C19.6662 6 17.4662 8.33376 15.4 10Z" fill="currentColor"/>
+				</svg>`,
+				rankProp: 'overall rank'
+			},
+			{
+				id: 2,
+				value: 'Avg. TripAdvisor score',
+				icon: `<svg width="29" height="9" viewBox="0 0 29 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M4.86954 7.65921L2.20063 8.60859L2.27813 5.77621L0.550125 3.52992L3.26867 2.72829L4.86954 0.391167L6.47162 2.72829L9.19017 3.52992L7.46216 5.77621L7.53966 8.60859L4.86954 7.65921Z" fill="currentColor"/>
+				<path d="M14.5 7.65921L11.8299 8.60859L11.9086 5.77621L10.1806 3.52992L12.8979 2.72829L14.5 0.391167L16.1021 2.72829L18.8194 3.52992L17.0914 5.77621L17.1701 8.60859L14.5 7.65921Z" fill="currentColor"/>
+				<path d="M24.1305 7.65921L21.4603 8.60859L21.5378 5.77621L19.8098 3.52992L22.5284 2.72829L24.1305 0.391167L25.7313 2.72829L28.4499 3.52992L26.7219 5.77621L26.7994 8.60859L24.1305 7.65921Z" fill="currentColor"/>
+				</svg>
+				`,
+				rankProp: 'tripadvisor rank',
+			},
+			{
+				id: 3,
+				value: 'Instagram hashtags',
+				icon: `<svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M20.11 3.92C20.11 2.03821 18.5818 0.509998 16.7 0.509998H4.3C2.41821 0.509998 0.889999 2.03821 0.889999 3.92V15.08C0.889999 16.9618 2.41821 18.49 4.3 18.49H16.7C18.5818 18.49 20.11 16.9618 20.11 15.08V3.92ZM18.25 15.08C18.25 15.9361 17.5561 16.63 16.7 16.63H4.3C3.6485 16.63 3.06363 16.2147 2.84325 15.5947L2.75969 15.3525L11.2072 10.4021C11.9265 9.98067 12.8783 10.0545 13.5225 10.5789L18.25 14.4201L18.25 15.08ZM18.25 12.02L14.6946 9.13067C14.0032 8.57 13.1289 8.26 12.2364 8.26C11.5449 8.26 10.8632 8.44648 10.265 8.79645L2.75121 13.2019V3.92015C2.75121 3.06403 3.44508 2.37015 4.30121 2.37015H16.7012C17.5573 2.37015 18.2512 3.06403 18.2512 3.92015V12.0201L18.25 12.02Z" fill="currentColor"/>
+				<path d="M7.71 6.4C7.71 7.64 5.85 7.64 5.85 6.4C5.85 5.16 7.71 5.16 7.71 6.4Z" fill="currentColor"/>
+				</svg>
+				`,
+				rankProp: 'hashtag rank',
+			},
+			{
+				id: 4,
+				value: 'Food and drink prices for a week',
+				icon: `<svg width="33" height="21" viewBox="0 0 33 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M31.3837 0.93C29.5029 1.78853 28.2151 3.63574 28.1494 5.74866L27.9844 10.2037C27.9509 10.9951 28.5787 11.6551 29.3701 11.6551H29.9309L28.9073 18.2215C28.7423 19.2115 29.5338 20.1357 30.5238 20.1357C31.4481 20.1357 32.1738 19.41 32.1738 18.4857L32.1751 1.4584C32.1751 1.02913 31.7459 0.765 31.3837 0.93Z" fill="currentColor"/>
+				<path d="M5.70933 0.89634C5.37933 0.89634 5.11507 1.1606 5.11507 1.4906V5.9456C5.11507 6.1106 4.98358 6.24209 4.81858 6.24209H4.45505C4.29005 6.24209 4.15857 6.1106 4.15857 5.9456V1.4906C4.15857 1.1606 3.89431 0.89634 3.5643 0.89634C3.2343 0.89634 2.97004 1.1606 2.97004 1.4906V5.9456C2.97004 6.1106 2.83855 6.24209 2.67355 6.24209L2.31003 6.24338C2.14503 6.24338 2.01354 6.11189 2.01354 5.94689V1.49057C2.01354 1.16057 1.74928 0.896309 1.41928 0.896309C1.08927 0.896309 0.825012 1.16057 0.825012 1.49057V6.7049C0.825012 7.46417 1.45148 8.09064 2.21075 8.09064H2.50723L1.88076 18.3543C1.81502 19.3108 2.57429 20.1036 3.53076 20.1036H3.56428C4.52075 20.1036 5.28001 19.3121 5.21428 18.3543L4.62001 8.05863H4.9165C5.67576 8.05863 6.30223 7.43216 6.30223 6.67289L6.30352 1.4909C6.30352 1.1609 6.03934 0.89634 5.70933 0.89634Z" fill="currentColor"/>
+				<path d="M16.665 0.89634C11.3513 0.89634 7.06134 5.18634 7.06134 10.5C7.06134 15.8137 11.3513 20.1037 16.665 20.1037C21.9787 20.1037 26.2687 15.8137 26.2687 10.5C26.2687 5.18634 21.9787 0.89634 16.665 0.89634ZM20.0643 12.8757C19.9328 14.1957 18.8758 15.2192 17.5893 15.4821V16.6707C17.5893 16.8022 17.4901 16.9014 17.3586 16.9014H16.0051C15.8736 16.9014 15.7743 16.8022 15.7743 16.6707V15.4821C14.4543 15.2514 13.4308 14.1621 13.2993 12.8086C13.2993 12.6771 13.3986 12.5444 13.5636 12.5444H14.9171C15.0164 12.5444 15.1478 12.6101 15.1478 12.7429C15.2471 13.2714 15.7086 13.6993 16.2693 13.6993H17.0286C17.5893 13.6993 18.1178 13.3036 18.2171 12.7429C18.3486 12.0171 17.7878 11.3893 17.0956 11.3893H16.4021C14.8514 11.3893 13.4656 10.2679 13.3006 8.71582C13.1356 7.09934 14.2571 5.74582 15.7756 5.48155V4.29302C15.7756 4.16154 15.8749 4.06228 16.0064 4.06228H17.3599C17.4914 4.06228 17.5907 4.16154 17.5907 4.29302V5.48155C18.9107 5.71229 19.9342 6.80155 20.0657 8.15508C20.0657 8.28657 19.9664 8.41934 19.8014 8.41934H18.4479C18.3486 8.41934 18.2171 8.35359 18.2171 8.22082C18.1179 7.66009 17.6564 7.26435 17.0957 7.26435H16.3364C15.7757 7.26435 15.2471 7.66009 15.1479 8.22082C15.0164 8.94656 15.5771 9.57435 16.2693 9.57435H17.0943C18.8436 9.57564 20.2293 11.0942 20.0643 12.8757Z" fill="currentColor"/>
+				</svg>
+				`,
+				rankProp: 'food and drinks rank'
+			},
+			{
+				id: 5,
+				value: 'Ski pass price',
+				icon: `<svg width="24" height="20" viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M22.68 5.2H23.88V0.4H0.120003V19.36H23.88V14.56H22.68C21.96 14.56 21.48 14.08 21.48 13.36C21.48 12.76 21.96 12.16 22.68 12.16H23.88V7.6H22.68C21.96 7.6 21.48 7.12 21.48 6.4C21.48 5.8 22.08 5.2 22.68 5.2ZM21.48 3.04C20.04 3.52 19.08 4.84 19.08 6.4C19.08 7.96 20.04 9.28 21.48 9.76V10.12C20.04 10.6 19.08 11.92 19.08 13.48C19.08 15.04 20.04 16.36 21.48 16.84V17.08H2.52V2.92H21.48V3.04Z" fill="currentColor"/>
+				<path d="M4.92001 11.2H16.8V13.6H4.92001V11.2Z" fill="currentColor"/>
+				<path d="M4.92001 6.4H16.8V8.8H4.92001V6.4Z" fill="currentColor"/>
+				</svg>
+				`,
+				rankProp: "ski pass cost rank",
+			}
+		]
 		this.loadDataAndInit()
 	}
-
-	// async loadDataAndInit() {
-	// 	try {
-	// 		const data = await d3.csv('./data/data.csv', d3.autoType)
-	// 		this.choices = initDropdown({
-	// 			list: data
-	// 				.slice()
-	// 				.sort((a, b) => {
-	// 					return d3.ascending(a.Island, b.Island)
-	// 				})
-	// 				.map(d => ({
-	// 					label: `<div class="flex items-center">
-	// 					<img src="./images/flags/l/${d['Country Code']}.svg" class="mr-3 w-[20px] h-[15px]" /> 
-	// 					${d.Island}
-	// 				</div>`,
-	// 					value: d.Island,
-	// 				})),
-	// 			id: '#islands_sel',
-	// 			searchEnabled: true,
-	// 			placeholder: 'Find locations',
-	// 			searchPlaceholderValue: 'Search locations',
-	// 			cb: island => this.highlightRow(island),
-	// 		})
-	// 		this.table = Table({
-	// 			headers: getHeaders(data),
-	// 			container: '#table',
-	// 			data: data,
-	// 			doneHeadersLoading: () => this.attachEventHandlers(),
-	// 		}).render()
-	// 	} catch (e) {
-	// 		console.error(e)
-	// 	}
-	// }
-
-	choiceList = [
-		{
-			text: 'Overall Score',
-			icon: './images/icons/overall.svg'
-		},
-		{
-			text: 'Avg. TripAdvisor score',
-			icon: './images/icons/tripadvisor.svg'
-		},
-		{
-			text: 'Instagram hashtags',
-			icon: './images/icons/instagram.svg'
-		},
-		{
-			text: 'Food and drink prices for a week',
-			icon: './images/icons/food.svg'
-		},
-		{
-			text: 'Ski pass price',
-			icon: './images/icons/ski.svg'
-		}
-	]
 	async loadDataAndInit() {
 		try {
-			const data = await d3.csv('./data/ski-data.csv', d3.autoType)
+			let data = await d3.csv('./data/ski-data.csv', d3.autoType)
+
+			data.forEach(d => {
+				d.id = getRandomId()
+			})
+
 			this.choices = initDropdown({
-				list: this.choiceList.slice().sort((a, b) => a - b).map(d => ({
-					label: `<div class='flex items-center gap-4'> 
-					<img src='${d.icon}' alt='${d.icon}' class='w-[30px] h-[30px]' />
-					<div> ${d.text} </div>
-					</div>`,
-					value: d.text
+				list: this.choiceList.slice().sort((a, b) => a.id - b.id).map(d => ({
+					label: `
+						<div class="show-in-dropdown">
+							<div class='flex items-center gap-4 '> 
+								<div class='w-[30px] choice-icon'>
+									${d.icon}
+								</div>
+
+								<div>${d.value}</div>
+							</div>
+						</div>
+						
+						<div class="show-in-header">
+							<div class="flex items-center gap-2 ">
+								<div>Order by:</div>
+								<div class= "font-bold font-arialBold orderby-category"> ${d.value} </div>
+							</div>
+						</div>
+				`,
+					value: d.value
 				})),
 				id: '#category_sel',
 				searchEnabled: false,
-				placeholder: ` <div class='flex gap-2'>Order by: <div class='font-bold' orderby-category> Overall Score </div> </div>`,
 				searchPlaceholderValue: '',
-				cb: text => { },
+				cb: (value) => {
+					const chosenValue = this.choiceList.find(d => d.value === value)
+					if (chosenValue) {
+						this.table = Table({
+							headers: getHeaders(data, chosenValue.rankProp),
+							container: '#table',
+							data: data,
+						}).render()
+
+					}
+				},
 			})
+
+			// Table initialization
 			this.table = Table({
 				headers: getHeaders(data),
 				container: '#table',
 				data: data,
-				doneHeadersLoading: () => this.attachEventHandlers(),
 			}).render()
 
 		} catch (e) {
-
+			console.error(e)
 		}
 	}
-	attachEventHandlers() {
-		d3.select('#show_values').on('change', e => {
-			console.log(checked)
-			const checked = e.target.checked
-			this.table.toggleValues(checked)
-		})
-	}
 
-	highlightRow(island) {
-		this.table.highlightRow(d => d.Island === island)
-	}
 }
 
 new App()

@@ -297,7 +297,8 @@
 }
 
 .choices__list--dropdown .choices__item--selectable.is-highlighted {
-  background-color: #f2f2f2
+  background-color: #100C08;
+  color: white;
 }
 
 .choices__list--dropdown .choices__item--selectable.is-highlighted:after {
@@ -365,4 +366,25 @@
 
 .choices__placeholder {
   opacity: .5
+}
+
+.choice-icon svg {
+  margin: 0 auto;
+  width: 24px
+}
+
+.choices__inner .show-in-dropdown {
+  display: none;
+}
+
+.choices__inner .show-in-header {
+  display: block;
+}
+
+.choices__list--dropdown .show-in-dropdown {
+  display: block;
+}
+
+.choices__list--dropdown .show-in-header {
+  display: none;
 }

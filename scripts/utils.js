@@ -49,7 +49,7 @@ function loadSvg(url) {
       }
     };
     xhr.send();
-  }).catch(() => {});
+  }).catch(() => { });
 }
 
 function fakePromise(content) {
@@ -131,9 +131,7 @@ function getRandomId() {
 
 function initDropdown({ list, id, cb, placeholder, ...rest }) {
   const select = document.querySelector(id);
-  const options = list.slice().sort((a, b) => {
-    return d3.ascending(a.label, b.label)
-  })
+  const options = list.slice()
   const choice = new Choices(select, {
     choices: [
       ...(placeholder
@@ -186,10 +184,10 @@ const isVisible = function (ele, container) {
 function isDescendant(parent, child) {
   var node = child.parentNode;
   while (node != null) {
-      if (node == parent) {
-          return true;
-      }
-      node = node.parentNode;
+    if (node == parent) {
+      return true;
+    }
+    node = node.parentNode;
   }
   return false;
 }

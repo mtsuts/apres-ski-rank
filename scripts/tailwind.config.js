@@ -3,7 +3,9 @@ tailwind.config = {
     extend: {
       fontFamily: {
         sans: ['Arial Regular', 'sans-serif'],
-        tungsten: ['Tungsten-Semibold']
+        tungsten: ['Tungsten-Semibold', 'sans-serif'],
+        arial: ['Arial Regular', 'sans-serif'],
+        arialBold: ['Arial Bold', 'sans-serif'],
       },
       colors: {
         black: "#030303",
