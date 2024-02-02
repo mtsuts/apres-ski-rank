@@ -6,10 +6,14 @@
   <title>Apres Ski - snow rock </title>
 
   <link rel="stylesheet" type="text/css" href="./styles/main.css" />
-  <link rel="stylesheet" type="text/css" href="./ArialFont/style.css" />
 
   <link href="./styles/choices.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="./ArialFont/style.css" />
 
+  <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="./scripts/tailwind.config.js"></script>
   <script src="./scripts/choices.min.js"></script>
@@ -17,7 +21,7 @@
 </head>
 
 <body>
-  <div class="max-w-[918px]  mx-auto">
+  <div class="max-w-[918px] mb-10 mx-auto container">
 
     <div class="flex items-center justify-center flex-col mt-10 lg:px-[200px] px-5">
       <img src="./images/logo.svg" alt="snow-rock-logo" class="flex justify-center items-center" />
@@ -25,19 +29,57 @@
         class="text-[52px] lg:mt-6 mt-10 text-black lg:text-[72px] leading-[42px] lg:leading-[64px] text-center font-tungsten  uppercase font-bold">
         Best countries in the world for apres-ski
       </div>
-
     </div>
 
-    <div class="mt-10">
+
+    <div class="lg:mt-10 mt-4 lg:px-[250px]  px-5">
       <div class="">
         <select id="category_sel"></select>
+      </div>
+    </div>
+
+
+    <div>
+      <div class="map-container" id="mapContainer"></div>
+
+
+      <!-- reset buttons -->
+      <div class="flex items-center gap-3 justify-end">
+        <button class="zoom-icon plus rounded-lg p-3">
+          <img src="./images/zoomplus.svg" alt='zoom-plus' />
+        </button>
+        <button class="zoom-icon minus rounded-lg p-3">
+          <img src="./images/zoomminus.svg" alt='zoom-minus' />
+        </button>
       </div>
 
     </div>
 
+    <!-- accordion -->
+    <div class="mt-10 mb-20 lg:px-[250px] px-5">
+      <div class="font-bold uppercase font-tungsten ml-6 text-[32px]">Best apres-ski</div>
+
+      <div class="h-[450px] overflow-y-auto">
+        <div id="accordion-example" class="px-6 py-0" data-accordion="collapse "
+          data-active-classes="bg-blue-100 dark:bg-gray-800 text-blue-600 dark:text-white">
+        </div>
+      </div>
+    </div>
 
 
+    <!-- Production -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+
+
+    <script src="./scripts/choices.min.js"> </script>
+    <script src="./scripts/accordion.js"> </script>
+    <script src="./scripts/map.js"></script>
+    <script src="./scripts/utils.js"></script>
     <script src="./scripts/app.js"></script>
+
+
 
 </body>
 
