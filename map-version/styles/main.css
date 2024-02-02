@@ -1,0 +1,7 @@
+@font-face {
+  font-display: swap;
+  font-family: Tungsten-Semibold;
+  font-style: normal;
+  font-weight: 600;
+  src: url("../TungstenFont/Tungsten-Semibold-subset.woff2") format("woff2");
+}

@@ -451,6 +451,5 @@ function Table(params) {
     attrs.showValues = showValues
     updateRows()
   }
-
   return main;
 }

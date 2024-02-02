@@ -5,7 +5,7 @@ function getFlag(country, className = 'small-flag') {
   )}.svg" /> ${country}
   </div>`
 }
-const arrowIcon = `<svg width="7" height="4" viewBox="0 0 7 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+const arrowIcon = `<svg width="7" height="4" class='arrow-svg' viewBox="0 0 7 4" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M6.65634 3.80474C6.38855 4.06509 5.95438 4.06509 5.68659 3.80474L3.42861 1.60948L1.17062 3.80474C0.902834 4.06509 0.468664 4.06509 0.200876 3.80474C-0.0669122 3.54439 -0.0669122 3.12228 0.200876 2.86193L2.94373 0.195262C3.21152 -0.0650873 3.64569 -0.0650873 3.91348 0.195262L6.65634 2.86193C6.92412 3.12228 6.92412 3.54439 6.65634 3.80474Z" fill="#AB182D"/>
 </svg>
 `
