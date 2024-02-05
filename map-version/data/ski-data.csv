@@ -1,4 +1,4 @@
-resort,country code,lat,long,coord,total score,overall rank,hastags number,hashtag rank,tripadvisor score,tripadvisor rank,ski pass cost,ski pass cost rank,food and drinks cost,food and drinks rank
+resort,country code,lat,long,coord,total score,overall rank,hastags number,hashtag rank,tripadvisor score,tripadvisor rank,ski pass cost,ski pass rank,food and drinks cost,food and drinks rank
 Japan,JP,36.58862111,138.9559607,36.58862111135642; 138.95596068138755,58,1,"175,073",9,4.33,2,167.6,6,395.6,3
 Spain,ES,39.61364763,-3.46960127,39.61364763228941; -3.4696012703692167,57,2,"939,933",1,4.1,8,233.5,13,544,14
 Sweden,SE,62.9580347,16.98475883,62.95803470092348; 16.984758834180386,56,3,"312,482",4,3.84,15,165.3,5,414.6,4

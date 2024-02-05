@@ -96,6 +96,8 @@ class App {
           searchPlaceholderValue: '',
           cb: (value) => {
             const chosenValue = this.choiceList.find(d => d.value === value)
+            let test = data.slice().sort((a, b) => a[chosenValue.rankProp] - b[chosenValue.rankProp])
+            console.log(test)
             this.createAccordion(data, chosenValue.rankProp)
             console.log(chosenValue.rankProp);
             this.map.addTooltip(chosenValue.rankProp)
