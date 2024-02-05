@@ -106,6 +106,7 @@ class App {
 
       })
 
+
       this.createAccordion(data)
 
     } catch (e) {
@@ -115,6 +116,7 @@ class App {
 
   createAccordion(data, rankBy = 'overall rank') {
     const sortedData = data.slice().sort((a, b) => a[rankBy] - b[rankBy])
+    const firstTenCountry = sortedData.filter((d, i) => i < 10)
 
     d3.select('#accordion-example')
       .html('')
