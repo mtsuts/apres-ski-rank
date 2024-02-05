@@ -27,3 +27,8 @@
 .tippy-box {
   background-color: transparent;
 }
+
+/* Hide scrollbar for Firefox, Chrome, Safari */
+::-webkit-scrollbar {
+  display: none;
+}
