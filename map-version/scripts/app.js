@@ -96,7 +96,7 @@ class App {
           searchPlaceholderValue: '',
           cb: (value) => {
             const chosenValue = this.choiceList.find(d => d.value === value)
-            this.createAccordion(data.filter((d, i) => i < 10), chosenValue.rankProp)
+            this.createAccordion(data, chosenValue.rankProp)
             console.log(chosenValue.rankProp);
             this.map.addTooltip(chosenValue.rankProp)
             d3.select('.accordion-heading').html(`<div> BEST APRES-SKI: <span class='text-[#AB182D]'> ${chosenValue.rankProp} </span> </div>`)
@@ -107,8 +107,7 @@ class App {
 
       })
 
-
-      this.createAccordion(data.filter((d, i) => i < 10))
+      this.createAccordion(data)
 
     } catch (e) {
       console.error(e)
@@ -122,7 +121,7 @@ class App {
     d3.select('#accordion-example')
       .html('')
       .selectAll('div')
-      .data(firstTenCountry)
+      .data(sortedData)
       .join('div')
       .attr('data-resort', d => d.resort)
       .attr('class', `my-2 p-2 rounded-3xl shadow-3xl`)
