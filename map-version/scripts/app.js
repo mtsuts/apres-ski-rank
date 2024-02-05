@@ -57,7 +57,7 @@ class App {
 				<path d="M4.92001 6.4H16.8V8.8H4.92001V6.4Z" fill="currentColor"/>
 				</svg>
 				`,
-        rankProp: "ski pass cost rank",
+        rankProp: "ski pass rank",
         score: 'ski pass cost',
         format: v => "£" + v
       }
@@ -99,6 +99,7 @@ class App {
             this.createAccordion(data, chosenValue.rankProp)
             console.log(chosenValue.rankProp);
             this.map.addTooltip(chosenValue.rankProp)
+            d3.select('.accordion-heading').html(`<div> BEST APRES-SKI: <span class='text-[#AB182D]'> ${chosenValue.rankProp} </span> </div>`)
           }
         })
         // map initialization
